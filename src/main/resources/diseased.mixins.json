@@ -1,0 +1,21 @@
+{
+  "required": true,
+  "minVersion": "0.8",
+  "package": "dev.chililisoup.diseased.mixin",
+  "compatibilityLevel": "JAVA_21",
+  "mixins": [
+    "EntityMixin",
+    "LivingEntityMixin",
+    "PlayerMixin"
+  ],
+  "client": [
+    "client.GameRendererMixin",
+    "client.GuiMixin",
+    "client.LivingEntityRendererMixin",
+    "client.PlayerRendererMixin",
+    "client.PlayerRenderStateMixin"
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  }
+}

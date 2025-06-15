@@ -1,0 +1,33 @@
+{
+  "schemaVersion": 1,
+  "id": "diseased",
+  "version": "${version}",
+  "name": "Diseased SMP",
+  "description": "Diseased SMP",
+  "authors": [],
+  "contact": {},
+  "license": "All-Rights-Reserved",
+  "icon": "assets/diseased/icon.png",
+  "environment": "*",
+  "entrypoints": {
+    "client": [
+      "dev.chililisoup.diseased.client.DiseasedClient"
+    ],
+    "main": [
+      "dev.chililisoup.diseased.Diseased"
+    ]
+  },
+  "mixins": [
+    "diseased.mixins.json"
+  ],
+  "depends": {
+    "fabricloader": ">=${loader_version}",
+    "fabric": "*",
+    "minecraft": "${minecraft_version}"
+  },
+  "custom": {
+    "loom:injected_interfaces": {
+      "net/minecraft/client/renderer/entity/state/PlayerRenderState": ["dev/chililisoup/diseased/interfaceinjects/client/DiseasedPlayerRenderState"]
+    }
+  }
+}
