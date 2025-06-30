@@ -9,6 +9,7 @@
   "license": "All-Rights-Reserved",
   "icon": "assets/diseased/icon.png",
   "environment": "*",
+  "accessWidener": "diseased.accesswidener",
   "entrypoints": {
     "client": [
       "dev.chililisoup.diseased.client.DiseasedClient"

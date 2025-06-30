@@ -2,13 +2,15 @@ package dev.chililisoup.diseased;
 
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
+import dev.chililisoup.diseased.reg.ModItems;
 import net.fabricmc.fabric.api.attachment.v1.AttachmentRegistry;
 import net.fabricmc.fabric.api.attachment.v1.AttachmentSyncPredicate;
 import net.fabricmc.fabric.api.attachment.v1.AttachmentType;
+import net.minecraft.core.Holder;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.network.codec.StreamCodec;
-import net.minecraft.world.entity.ai.attributes.AttributeInstance;
+import net.minecraft.world.entity.ai.attributes.Attribute;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.player.Player;
@@ -31,74 +33,26 @@ public class PlayerDiseases {
     );
 
     public static final PlayerDisease NONE = new PlayerDisease("none");
-    public static final PlayerDisease SHORT = new PlayerDisease(
-            "short",
-            player -> {
-                AttributeInstance attribute = player.getAttributes().getInstance(Attributes.SCALE);
-                if (attribute != null)
-                    attribute.addOrReplacePermanentModifier(new AttributeModifier(
-                            Diseased.loc("short"),
-                            -0.25,
-                            AttributeModifier.Operation.ADD_MULTIPLIED_TOTAL
-                    ));
-            },
-            player -> {
-                AttributeInstance attribute = player.getAttributes().getInstance(Attributes.SCALE);
-                if (attribute != null) attribute.removeModifier(Diseased.loc("short"));
-            }
+    public static final PlayerDisease SHORT = PlayerDisease.of(
+            "short", Attributes.SCALE, -0.25, AttributeModifier.Operation.ADD_MULTIPLIED_TOTAL
     );
-    public static final PlayerDisease TALL = new PlayerDisease(
-            "tall",
-            player -> {
-                AttributeInstance attribute = player.getAttributes().getInstance(Attributes.SCALE);
-                if (attribute != null)
-                    attribute.addOrReplacePermanentModifier(new AttributeModifier(
-                            Diseased.loc("tall"),
-                            0,
-                            AttributeModifier.Operation.ADD_MULTIPLIED_TOTAL
-                    ));
-            },
-            player -> {
-                AttributeInstance attribute = player.getAttributes().getInstance(Attributes.SCALE);
-                if (attribute != null) attribute.removeModifier(Diseased.loc("tall"));
-            }
-    );
+    public static final PlayerDisease TALL = new PlayerDisease("tall");
     public static final PlayerDisease CRICK = new PlayerDisease("crick");
     public static final PlayerDisease SLIPPERY = new PlayerDisease("slippery");
     public static final PlayerDisease UNDEAD = new PlayerDisease("undead");
-    public static final PlayerDisease PACIFIST = new PlayerDisease(
-            "pacifist",
-            player -> {
-                AttributeInstance damage = player.getAttributes().getInstance(Attributes.ATTACK_DAMAGE);
-                if (damage != null)
-                    damage.addOrReplacePermanentModifier(new AttributeModifier(
-                            Diseased.loc("pacifist"),
-                            -1,
-                            AttributeModifier.Operation.ADD_MULTIPLIED_TOTAL
-                    ));
-            },
-            player -> {
-                AttributeInstance attribute = player.getAttributes().getInstance(Attributes.ATTACK_DAMAGE);
-                if (attribute != null) attribute.removeModifier(Diseased.loc("pacifist"));
-            }
+    public static final PlayerDisease PACIFIST = PlayerDisease.of(
+            "pacifist", Attributes.ATTACK_DAMAGE, -1, AttributeModifier.Operation.ADD_MULTIPLIED_TOTAL
     );
     public static final PlayerDisease BOUNCY = new PlayerDisease("bouncy");
-    public static final PlayerDisease GILLED = new PlayerDisease(
-            "gilled",
-            player -> {
-                AttributeInstance damage = player.getAttributes().getInstance(Attributes.OXYGEN_BONUS);
-                if (damage != null)
-                    damage.addOrReplacePermanentModifier(new AttributeModifier(
-                            Diseased.loc("gilled"),
-                            3,
-                            AttributeModifier.Operation.ADD_VALUE
-                    ));
-            },
-            player -> {
-                AttributeInstance attribute = player.getAttributes().getInstance(Attributes.OXYGEN_BONUS);
-                if (attribute != null) attribute.removeModifier(Diseased.loc("gilled"));
-            }
+    public static final PlayerDisease GILLED = PlayerDisease.of(
+            "gilled", Attributes.OXYGEN_BONUS, 3, AttributeModifier.Operation.ADD_VALUE
     );
+    public static final PlayerDisease POCKETLESS = new PlayerDisease(
+            "pocketless",
+            player -> PlayerMod.replaceSlots(player, ModItems.SLOT_BLOCKER.getDefaultInstance(), 9, 36),
+            player -> PlayerMod.clearSlots(player, 9, 36)
+    );
+    public static final PlayerDisease ENDER = new PlayerDisease("ender");
 
     public static Optional<PlayerDisease> find(String name) {
         if (name.equals("none")) return Optional.empty();
@@ -120,6 +74,14 @@ public class PlayerDiseases {
             this.cleanup = cleanup;
 
             DISEASE_MAP.put(name, this);
+        }
+
+        public static PlayerDisease of(String name, Holder<Attribute> attribute, double value, AttributeModifier.Operation operation) {
+            return new PlayerDisease(
+                    name,
+                    player -> PlayerMod.addAttribute(player, attribute, name, value, operation),
+                    player -> PlayerMod.removeAttribute(player, attribute, name)
+            );
         }
 
         public PlayerDisease(String name) {

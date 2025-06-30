@@ -1,0 +1,14 @@
+{
+  "parent": "minecraft:item/generated",
+  "textures": {
+    "layer0": "diseased:item/slot_blocker"
+  },
+  "display": {
+    "gui": {
+      "scale":[ 1.125, 1.125, 1 ]
+    },
+    "head": {
+      "scale":[ 0, 0, 0 ]
+    }
+  }
+}

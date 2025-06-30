@@ -1,5 +1,7 @@
 package dev.chililisoup.diseased;
 
+import dev.chililisoup.diseased.reg.ModCommands;
+import dev.chililisoup.diseased.reg.ModItems;
 import net.fabricmc.api.ModInitializer;
 import net.minecraft.resources.ResourceLocation;
 import org.slf4j.Logger;
@@ -14,6 +16,7 @@ public class Diseased implements ModInitializer {
     @Override
     public void onInitialize() {
         PlayerDiseases.noop();
+        ModItems.noop();
         ModCommands.init();
     }
 

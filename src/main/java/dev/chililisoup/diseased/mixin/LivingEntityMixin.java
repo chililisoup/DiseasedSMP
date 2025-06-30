@@ -49,4 +49,10 @@ public abstract class LivingEntityMixin {
 
         return base;
     }
+
+    @Inject(method = "isSensitiveToWater", at = @At("RETURN"), cancellable = true)
+    private void setWaterSensitive(CallbackInfoReturnable<Boolean> cir) {
+        if ((LivingEntity) (Object) this instanceof Player player && PlayerDiseases.ENDER.foundOn(player))
+            cir.setReturnValue(true);
+    }
 }

@@ -1,4 +1,4 @@
-package dev.chililisoup.diseased;
+package dev.chililisoup.diseased.reg;
 
 import com.google.common.collect.ImmutableList;
 import com.mojang.brigadier.StringReader;
@@ -8,6 +8,8 @@ import com.mojang.brigadier.exceptions.CommandSyntaxException;
 import com.mojang.brigadier.exceptions.DynamicCommandExceptionType;
 import com.mojang.brigadier.suggestion.Suggestions;
 import com.mojang.brigadier.suggestion.SuggestionsBuilder;
+import dev.chililisoup.diseased.Diseased;
+import dev.chililisoup.diseased.PlayerDiseases;
 import net.fabricmc.fabric.api.command.v2.ArgumentTypeRegistry;
 import net.fabricmc.fabric.api.command.v2.CommandRegistrationCallback;
 import net.minecraft.commands.CommandSourceStack;

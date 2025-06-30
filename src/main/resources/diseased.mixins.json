@@ -4,11 +4,19 @@
   "package": "dev.chililisoup.diseased.mixin",
   "compatibilityLevel": "JAVA_21",
   "mixins": [
+    "EntityEquipmentMixin",
     "EntityMixin",
+    "EquippableMixin",
+    "InventoryMixin",
     "LivingEntityMixin",
-    "PlayerMixin"
+    "PlayerListMixin",
+    "PlayerMixin",
+    "ServerPlayerMixin",
+    "SlotMixin"
   ],
   "client": [
+    "client.AbstractContainerScreenMixin",
+    "client.CreativeModeInventoryScreenMixin",
     "client.GameRendererMixin",
     "client.GuiMixin",
     "client.LivingEntityRendererMixin",
